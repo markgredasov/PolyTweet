@@ -8,6 +8,10 @@ import (
 	"syscall"
 
 	"github.com/joho/godotenv"
+	posts_repository "github.com/tryingmyb3st/PolyTweet/internal/features/posts/repository/postgres"
+	posts_cache "github.com/tryingmyb3st/PolyTweet/internal/features/posts/repository/redis"
+	posts_service "github.com/tryingmyb3st/PolyTweet/internal/features/posts/service"
+	posts_transport "github.com/tryingmyb3st/PolyTweet/internal/features/posts/transport/http"
 	"go.uber.org/zap"
 
 	_ "github.com/tryingmyb3st/PolyTweet/docs"
@@ -60,10 +64,18 @@ func main() {
 
 	log.Debug("initializing auth service")
 	authRepo := auth_repository.NewAuthRepository(pool)
-	cacheRepo := auth_cache.NewAuthCache(cache)
-	authService := auth_service.NewAuthService(authRepo, cacheRepo)
+	postsRepo := posts_repository.NewPostsRepository(pool)
+	cacheAuthRepo := auth_cache.NewAuthCache(cache)
+	cachePostsRepo := posts_cache.NewPostsCache(cache)
+
+	authService := auth_service.NewAuthService(authRepo, cacheAuthRepo)
+	postsService := posts_service.NewPostsService(postsRepo, cachePostsRepo)
+
 	authHandler := auth_transport.NewAuthHandler(authService)
+	postsHandler := posts_transport.NewPostsHandler(postsService)
+
 	serv.RegisterRoutes(authHandler.Routes()...)
+	serv.RegisterRoutes(postsHandler.Routes()...)
 
 	serv.RegisterSwagger()
 

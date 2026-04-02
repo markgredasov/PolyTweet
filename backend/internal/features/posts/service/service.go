@@ -1,0 +1,27 @@
+package service
+
+import (
+	"context"
+
+	"github.com/tryingmyb3st/PolyTweet/internal/core/domain"
+)
+
+type PostsService struct {
+	postsRepo PostsRepository
+	cacheRepo Cache
+}
+
+type PostsRepository interface {
+	CreatePost(ctx context.Context, post domain.Post) (*domain.Post, error)
+}
+
+type Cache interface {
+	SavePost(ctx context.Context, post domain.Post) (*domain.Post, error)
+}
+
+func NewPostsService(postsRepo PostsRepository, cache Cache) *PostsService {
+	return &PostsService{
+		postsRepo: postsRepo,
+		cacheRepo: cache,
+	}
+}

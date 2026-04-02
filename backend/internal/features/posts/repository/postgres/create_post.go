@@ -1,0 +1,57 @@
+package postgres
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/tryingmyb3st/PolyTweet/internal/core/domain"
+	posts_models "github.com/tryingmyb3st/PolyTweet/internal/features/posts/repository"
+)
+
+func (r *PostsRepository) CreatePost(ctx context.Context, post domain.Post) (*domain.Post, error) {
+	ctxTimeout, cancel := context.WithTimeout(ctx, r.ConnPool.OpTimeout())
+	defer cancel()
+
+	query := `
+	INSERT INTO posts(id, user_id, content, parent_id, reply_to, image_url, created_at)
+	VALUES($1, $2, $3, $4, $5, $6, $7)
+	RETURNING id, user_id, content, parent_id, reply_to, image_url, created_at;
+	`
+
+	row := r.ConnPool.QueryRow(
+		ctxTimeout,
+		query,
+		post.ID,
+		post.UserID,
+		post.Content,
+		post.ParentID,
+		post.ReplyTo,
+		post.ImageURL,
+		post.CreatedAt,
+	)
+
+	var model posts_models.PostModel
+	err := row.Scan(
+		&model.ID,
+		&model.UserID,
+		&model.Content,
+		&model.ParentID,
+		&model.ReplyTo,
+		&model.ImageURL,
+		&model.CreatedAt,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("scan returning post: %w", err)
+	}
+
+	return &domain.Post{
+		ID:        model.ID,
+		UserID:    model.UserID,
+		Content:   model.Content,
+		ParentID:  model.ParentID,
+		ReplyTo:   model.ReplyTo,
+		ImageURL:  model.ImageURL,
+		CreatedAt: model.CreatedAt,
+	}, nil
+}
