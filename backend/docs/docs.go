@@ -144,6 +144,68 @@ const docTemplate = `{
                             "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
                         }
                     },
+                    "401": {
+                        "description": "Неверные учетные данные",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.InternalError"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/{PostId}": {
+            "get": {
+                "description": "Ищет пост по ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Поиск поста по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Post ID",
+                        "name": "PostId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пост найден",
+                        "schema": {
+                            "$ref": "#/definitions/internal_features_posts_transport_http.GetPostByIdDTOResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный запрос",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "401": {
+                        "description": "Неверные учетные данные",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "404": {
+                        "description": "Пост не найден",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
                     "500": {
                         "description": "Внутренняя ошибка сервера",
                         "schema": {
@@ -387,6 +449,46 @@ const docTemplate = `{
                     "example": "2026-03-25T12:00:41.267Z"
                 }
             }
+        },
+        "internal_features_posts_transport_http.GetPostByIdDTOResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "x-order": "0",
+                    "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                },
+                "user_id": {
+                    "type": "string",
+                    "x-order": "1",
+                    "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                },
+                "content": {
+                    "type": "string",
+                    "x-order": "2",
+                    "example": "Hello, world!"
+                },
+                "parent_id": {
+                    "type": "string",
+                    "x-order": "3",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "reply_to": {
+                    "type": "string",
+                    "x-order": "4",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "image_url": {
+                    "type": "string",
+                    "x-order": "5",
+                    "example": "https://example.com/image.jpg"
+                },
+                "created_at": {
+                    "type": "string",
+                    "x-order": "6",
+                    "example": "2026-03-25T12:00:41.267Z"
+                }
+            }
         }
     }
 }`
@@ -398,7 +500,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Poly Twitter Service",
-	Description:      "Аналог Twitter, разработанный в рамках проекта по дисциплине Архитектура Программных Систем",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -37,6 +37,7 @@ type CreatePostDTOResponse struct {
 // @Param request body CreatePostDTO true "тело запроса"
 // @Success 201 {object} CreatePostDTOResponse "Пост создан"
 // @Failure 400 {object} domain.CustomError "Неверный запрос или content > 280"
+// @Failure 401 {object} domain.CustomError "Неверные учетные данные"
 // @Failure 500 {object} domain.InternalError "Внутренняя ошибка сервера"
 // @Router /posts/create [post]
 func (h *PostsHTTPHandler) CreatePost(w http.ResponseWriter, r *http.Request) {

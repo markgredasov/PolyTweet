@@ -13,6 +13,7 @@ type PostsService struct {
 
 type PostsRepository interface {
 	CreatePost(ctx context.Context, post domain.Post) (*domain.Post, error)
+	GetPostByID(ctx context.Context, postID string) (*domain.Post, error)
 }
 
 type Cache interface {
