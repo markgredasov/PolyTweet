@@ -34,13 +34,5 @@ func (r *PostsRepository) GetPostByID(ctx context.Context, postID string) (*doma
 		return nil, fmt.Errorf("scan returning post: %w", err)
 	}
 
-	return &domain.Post{
-		ID:        post.ID,
-		UserID:    post.UserID,
-		Content:   post.Content,
-		ParentID:  post.ParentID,
-		ReplyTo:   post.ReplyTo,
-		ImageURL:  post.ImageURL,
-		CreatedAt: post.CreatedAt,
-	}, nil
+	return &post, nil
 }

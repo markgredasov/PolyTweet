@@ -11,8 +11,6 @@ import (
 )
 
 func (s *PostsService) GetPostByID(ctx context.Context, postID string) (*domain.Post, error) {
-	var post *domain.Post
-
 	if _, err := uuid.Parse(postID); err != nil {
 		return nil, fmt.Errorf("post id is not uuid: %w", domain.INVALID_REQUEST)
 	}

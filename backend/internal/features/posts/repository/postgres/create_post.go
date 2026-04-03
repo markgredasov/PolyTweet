@@ -45,13 +45,5 @@ func (r *PostsRepository) CreatePost(ctx context.Context, post domain.Post) (*do
 		return nil, fmt.Errorf("scan returning post: %w", err)
 	}
 
-	return &domain.Post{
-		ID:        model.ID,
-		UserID:    model.UserID,
-		Content:   model.Content,
-		ParentID:  model.ParentID,
-		ReplyTo:   model.ReplyTo,
-		ImageURL:  model.ImageURL,
-		CreatedAt: model.CreatedAt,
-	}, nil
+	return &post, nil
 }

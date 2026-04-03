@@ -16,6 +16,11 @@ type PostsHTTPHandler struct {
 type PostsService interface {
 	CreatePost(ctx context.Context, post domain.Post) (*domain.Post, error)
 	GetPostByID(ctx context.Context, postID string) (*domain.Post, error)
+	GetPostsByUser(
+		ctx context.Context, userID string,
+		page string,
+		pageSize string,
+	) ([]domain.Post, *domain.Pagination, error)
 }
 
 func NewPostsHandler(postsService PostsService) *PostsHTTPHandler {
@@ -36,6 +41,12 @@ func (h *PostsHTTPHandler) Routes() []server.Route {
 			Method:               http.MethodGet,
 			URL:                  "/posts/{PostId}",
 			Handler:              h.GetPostById,
+			AdditionalMiddleware: []middleware.Middleware{middleware.AuthMiddleware()},
+		},
+		{
+			Method:               http.MethodGet,
+			URL:                  "/posts/users/{UserId}",
+			Handler:              h.GetPostsByUser,
 			AdditionalMiddleware: []middleware.Middleware{middleware.AuthMiddleware()},
 		},
 	}
