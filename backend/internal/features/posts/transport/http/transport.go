@@ -22,6 +22,7 @@ type PostsService interface {
 		pageSize string,
 	) ([]domain.Post, *domain.Pagination, error)
 	DeletePost(ctx context.Context, userID, postID string) error
+	GetLastWeekPosts(ctx context.Context, pageStr, pageSizeStr string) ([]domain.Post, *domain.Pagination, error)
 }
 
 func NewPostsHandler(postsService PostsService) *PostsHTTPHandler {
@@ -54,6 +55,12 @@ func (h *PostsHTTPHandler) Routes() []server.Route {
 			Method:               http.MethodDelete,
 			URL:                  "/posts/{PostId}/delete",
 			Handler:              h.DeletePost,
+			AdditionalMiddleware: []middleware.Middleware{middleware.AuthMiddleware()},
+		},
+		{
+			Method:               http.MethodGet,
+			URL:                  "/posts/all",
+			Handler:              h.GetLastWeekPosts,
 			AdditionalMiddleware: []middleware.Middleware{middleware.AuthMiddleware()},
 		},
 	}

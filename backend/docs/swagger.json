@@ -99,6 +99,66 @@
                 }
             }
         },
+        "/posts/all": {
+            "get": {
+                "description": "Ищет посты за последние 7 дней с поддержкой пагинации через параметры page и pageSize.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Поиск постов за последние 7 дней",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Номер страницы",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 30,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 15,
+                        "description": "Размер страницы",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Посты найдены",
+                        "schema": {
+                            "$ref": "#/definitions/internal_features_posts_transport_http.GetLastWeekPostsDTOResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный запрос",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "401": {
+                        "description": "Неверные учетные данные",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.InternalError"
+                        }
+                    }
+                }
+            }
+        },
         "/posts/create": {
             "post": {
                 "description": "Создает пост длиной \u003c= 280 слов",
@@ -415,6 +475,49 @@
                 }
             }
         },
+        "github_com_tryingmyb3st_PolyTweet_internal_core_domain.Pagination": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_tryingmyb3st_PolyTweet_internal_core_domain.Post": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "reply_to": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "internal_features_auth_transport_http.DummyLoginDTO": {
             "type": "object",
             "properties": {
@@ -575,6 +678,20 @@
                 },
                 "post_id": {
                     "type": "string"
+                }
+            }
+        },
+        "internal_features_posts_transport_http.GetLastWeekPostsDTOResponse": {
+            "type": "object",
+            "properties": {
+                "pagination": {
+                    "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.Pagination"
+                },
+                "posts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.Post"
+                    }
                 }
             }
         },

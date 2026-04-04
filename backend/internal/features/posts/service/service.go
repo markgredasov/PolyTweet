@@ -17,6 +17,8 @@ type PostsRepository interface {
 	GetPostsByUser(ctx context.Context, userID string, offset int, limit int) ([]domain.Post, error)
 	GetCountOfPostsByUser(ctx context.Context, userID string) (int64, error)
 	DeletePost(ctx context.Context, userID, postID string) error
+	GetLastWeekPosts(ctx context.Context, offset int, limit int) ([]domain.Post, error)
+	GetCountOfLastWeekPosts(ctx context.Context) (int64, error)
 }
 
 type Cache interface {

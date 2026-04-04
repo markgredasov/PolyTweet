@@ -59,11 +59,12 @@ func (h *PostsHTTPHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	post, err := h.PostsService.CreatePost(
 		ctx,
 		domain.Post{
-			UserID:   userID,
-			Content:  req.Content,
-			ParentID: req.ParentID,
-			ReplyTo:  req.ReplyTo,
-			ImageURL: req.ImageURL,
+			UserID:    userID,
+			Content:   req.Content,
+			ParentID:  req.ParentID,
+			ReplyTo:   req.ReplyTo,
+			ImageURL:  req.ImageURL,
+			CreatedAt: time.Now(),
 		},
 	)
 
