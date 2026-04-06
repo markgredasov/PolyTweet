@@ -107,6 +107,299 @@ const docTemplate = `{
                 }
             }
         },
+        "/posts/all": {
+            "get": {
+                "description": "Ищет посты за последние 7 дней с поддержкой пагинации через параметры page и pageSize.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Поиск постов за последние 7 дней",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Номер страницы",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 30,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 15,
+                        "description": "Размер страницы",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Посты найдены",
+                        "schema": {
+                            "$ref": "#/definitions/internal_features_posts_transport_http.GetLastWeekPostsDTOResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный запрос",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "401": {
+                        "description": "Неверные учетные данные",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.InternalError"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/create": {
+            "post": {
+                "description": "Создает пост длиной \u003c= 280 слов",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Создание поста",
+                "parameters": [
+                    {
+                        "description": "тело запроса",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_features_posts_transport_http.CreatePostDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Пост создан",
+                        "schema": {
+                            "$ref": "#/definitions/internal_features_posts_transport_http.CreatePostDTOResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный запрос или content \u003e 280",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "401": {
+                        "description": "Неверные учетные данные",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.InternalError"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/users/{UserId}": {
+            "get": {
+                "description": "Ищет посты пользователя по ID с поддержкой пагинации через параметры page и pageSize.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Поиск постов пользователя",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "UserId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Номер страницы",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 30,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 15,
+                        "description": "Размер страницы",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Посты найдены",
+                        "schema": {
+                            "$ref": "#/definitions/internal_features_posts_transport_http.GetPostByIdDTOResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный запрос",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "401": {
+                        "description": "Неверные учетные данные",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.InternalError"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/{PostId}": {
+            "get": {
+                "description": "Ищет пост по ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Поиск поста по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Post ID",
+                        "name": "PostId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пост найден",
+                        "schema": {
+                            "$ref": "#/definitions/internal_features_posts_transport_http.GetPostByIdDTOResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный запрос",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "401": {
+                        "description": "Неверные учетные данные",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "404": {
+                        "description": "Пост не найден",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.InternalError"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/{PostId}/delete": {
+            "delete": {
+                "description": "Удаляет пост, если запрос на удаление исходит от автора поста",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Удаление поста",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                        "description": "Post ID (UUID)",
+                        "name": "postId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пост успешно удален",
+                        "schema": {
+                            "$ref": "#/definitions/internal_features_posts_transport_http.DeletePostDTOResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный запрос",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "401": {
+                        "description": "Неверные учетные данные",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "404": {
+                        "description": "Пост не найден",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.InternalError"
+                        }
+                    }
+                }
+            }
+        },
         "/register": {
             "post": {
                 "description": "Создаёт нового пользователя и возвращает его данные.",
@@ -187,6 +480,49 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "internal server error"
+                }
+            }
+        },
+        "github_com_tryingmyb3st_PolyTweet_internal_core_domain.Pagination": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_tryingmyb3st_PolyTweet_internal_core_domain.Post": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "reply_to": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
                 }
             }
         },
@@ -273,6 +609,136 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string",
                     "x-order": "4",
+                    "example": "2026-03-25T12:00:41.267Z"
+                }
+            }
+        },
+        "internal_features_posts_transport_http.CreatePostDTO": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "x-order": "0",
+                    "example": "Hello, world!"
+                },
+                "parent_id": {
+                    "type": "string",
+                    "x-order": "1",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "reply_to": {
+                    "type": "string",
+                    "x-order": "2",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "image_url": {
+                    "type": "string",
+                    "x-order": "3",
+                    "example": "https://example.com/image.jpg"
+                }
+            }
+        },
+        "internal_features_posts_transport_http.CreatePostDTOResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "x-order": "0",
+                    "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                },
+                "user_id": {
+                    "type": "string",
+                    "x-order": "1",
+                    "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                },
+                "content": {
+                    "type": "string",
+                    "x-order": "2",
+                    "example": "Hello, world!"
+                },
+                "parent_id": {
+                    "type": "string",
+                    "x-order": "3",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "reply_to": {
+                    "type": "string",
+                    "x-order": "4",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "image_url": {
+                    "type": "string",
+                    "x-order": "5",
+                    "example": "https://example.com/image.jpg"
+                },
+                "created_at": {
+                    "type": "string",
+                    "x-order": "6",
+                    "example": "2026-03-25T12:00:41.267Z"
+                }
+            }
+        },
+        "internal_features_posts_transport_http.DeletePostDTOResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "post_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_features_posts_transport_http.GetLastWeekPostsDTOResponse": {
+            "type": "object",
+            "properties": {
+                "pagination": {
+                    "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.Pagination"
+                },
+                "posts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.Post"
+                    }
+                }
+            }
+        },
+        "internal_features_posts_transport_http.GetPostByIdDTOResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "x-order": "0",
+                    "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                },
+                "user_id": {
+                    "type": "string",
+                    "x-order": "1",
+                    "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                },
+                "content": {
+                    "type": "string",
+                    "x-order": "2",
+                    "example": "Hello, world!"
+                },
+                "parent_id": {
+                    "type": "string",
+                    "x-order": "3",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "reply_to": {
+                    "type": "string",
+                    "x-order": "4",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "image_url": {
+                    "type": "string",
+                    "x-order": "5",
+                    "example": "https://example.com/image.jpg"
+                },
+                "created_at": {
+                    "type": "string",
+                    "x-order": "6",
                     "example": "2026-03-25T12:00:41.267Z"
                 }
             }

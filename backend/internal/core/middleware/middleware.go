@@ -83,7 +83,7 @@ func AuthMiddleware() Middleware {
 			token := r.Header.Get("Authorization")
 
 			if token == "" || !strings.HasPrefix(token, "Bearer") {
-				log.Debug("unathourized user", zap.String("Authorization", r.Header.Get("Authorization")))
+				log.Debug("unauthorized user", zap.String("Authorization", r.Header.Get("Authorization")))
 
 				respWriter.ErrorResponse(domain.INVALID_REQUEST, http.StatusUnauthorized)
 				return

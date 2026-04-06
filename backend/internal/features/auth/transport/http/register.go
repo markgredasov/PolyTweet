@@ -45,7 +45,7 @@ func (h *AuthHTTPHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 
 	var req RegisterDTO
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		log.Debug("error reguster decoding", zap.Error(err))
+		log.Debug("error register decoding", zap.Error(err))
 
 		respWriter.ErrorResponse(domain.INVALID_REQUEST, http.StatusBadRequest)
 		return
