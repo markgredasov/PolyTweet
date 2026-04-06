@@ -2,7 +2,6 @@ package http
 
 import (
 	"net/http"
-	"strings"
 
 	_ "github.com/tryingmyb3st/PolyTweet/internal/core/domain"
 	"github.com/tryingmyb3st/PolyTweet/internal/core/logger"
@@ -36,11 +35,8 @@ func (h *PostsHTTPHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 
 	userID := ctx.Value("userId").(string)
 	log.Debug("delete post request for user", zap.Any("userId", userID))
-
-	path := r.URL.Path
-
-	postID := strings.TrimPrefix(path, "/posts/")
-	postID = strings.TrimSuffix(postID, "/delete")
+	
+	postID := r.PathValue("PostId")
 
 	err := h.PostsService.DeletePost(ctx, userID, postID)
 	if err != nil {

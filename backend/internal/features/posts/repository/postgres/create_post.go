@@ -13,8 +13,8 @@ func (r *PostsRepository) CreatePost(ctx context.Context, post domain.Post) (*do
 	defer cancel()
 
 	query := `
-	INSERT INTO posts(id, user_id, content, parent_id, reply_to, image_url, created_at)
-	VALUES($1, $2, $3, $4, $5, $6, $7)
+	INSERT INTO posts(id, user_id, content, parent_id, reply_to, image_url)
+	VALUES($1, $2, $3, $4, $5, $6)
 	RETURNING id, user_id, content, parent_id, reply_to, image_url, created_at;
 	`
 
@@ -27,7 +27,6 @@ func (r *PostsRepository) CreatePost(ctx context.Context, post domain.Post) (*do
 		post.ParentID,
 		post.ReplyTo,
 		post.ImageURL,
-		post.CreatedAt,
 	)
 
 	var model posts_models.PostModel
@@ -45,5 +44,13 @@ func (r *PostsRepository) CreatePost(ctx context.Context, post domain.Post) (*do
 		return nil, fmt.Errorf("scan returning post: %w", err)
 	}
 
-	return &post, nil
+	return &domain.Post{
+		ID:        model.ID,
+		UserID:    model.UserID,
+		Content:   model.Content,
+		ParentID:  model.ParentID,
+		ReplyTo:   model.ReplyTo,
+		ImageURL:  model.ImageURL,
+		CreatedAt: model.CreatedAt,
+	}, nil
 }

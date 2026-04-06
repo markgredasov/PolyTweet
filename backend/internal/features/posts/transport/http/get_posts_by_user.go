@@ -2,7 +2,6 @@ package http
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/tryingmyb3st/PolyTweet/internal/core/domain"
 	"github.com/tryingmyb3st/PolyTweet/internal/core/logger"
@@ -32,7 +31,7 @@ type GetPostsByUserDTOResponse struct {
 // @Failure 400 {object} domain.CustomError "Неверный запрос"
 // @Failure 401 {object} domain.CustomError "Неверные учетные данные"
 // @Failure 500 {object} domain.InternalError "Внутренняя ошибка сервера"
-// @Router /posts/users/{UserId} [get]
+// @Router /users/{UserId}/posts [get]
 func (h *PostsHTTPHandler) GetPostsByUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	pageStr := r.URL.Query().Get("page")
@@ -41,9 +40,9 @@ func (h *PostsHTTPHandler) GetPostsByUser(w http.ResponseWriter, r *http.Request
 	log := ctx.Value("log").(*logger.Logger)
 	respWriter := response.NewResponseHandler(log, w)
 
-	userIdStr := strings.TrimPrefix(r.URL.Path, "/posts/users/")
+	userID := r.PathValue("UserId")
 
-	posts, pagination, err := h.PostsService.GetPostsByUser(ctx, userIdStr, pageStr, pageSizeStr)
+	posts, pagination, err := h.PostsService.GetPostsByUser(ctx, userID, pageStr, pageSizeStr)
 
 	if err != nil {
 		log.Error("get posts by user", zap.Error(err))

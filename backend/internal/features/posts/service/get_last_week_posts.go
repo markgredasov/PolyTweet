@@ -12,14 +12,8 @@ import (
 
 func (s *PostsService) GetLastWeekPosts(
 	ctx context.Context,
-	pageStr,
-	pageSizeStr string,
+	paginationParams *domain.PaginationParams,
 ) ([]domain.Post, *domain.Pagination, error) {
-	paginationParams, err := domain.ParsePaginationParams(pageStr, pageSizeStr)
-	if err != nil {
-		return nil, nil, fmt.Errorf("invalid pagination params: %w", err)
-	}
-
 	total, err := s.postsRepo.GetCountOfLastWeekPosts(ctx)
 	if err != nil {
 		return nil, nil, fmt.Errorf("%s: %w", err, domain.INTERNAL_ERROR)

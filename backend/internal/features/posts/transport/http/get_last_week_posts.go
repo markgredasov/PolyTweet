@@ -29,13 +29,21 @@ type GetLastWeekPostsDTOResponse struct {
 // @Router /posts/all [get]
 func (h *PostsHTTPHandler) GetLastWeekPosts(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	pageStr := r.URL.Query().Get("page")
-	pageSizeStr := r.URL.Query().Get("page_size")
 
 	log := ctx.Value("log").(*logger.Logger)
 	respWriter := response.NewResponseHandler(log, w)
 
-	posts, pagination, err := h.PostsService.GetLastWeekPosts(ctx, pageStr, pageSizeStr)
+	pageStr := r.URL.Query().Get("page")
+	pageSizeStr := r.URL.Query().Get("page_size")
+
+	paginationParams, err := domain.ParsePaginationParams(pageStr, pageSizeStr)
+	if err != nil {
+		log.Error("get last week posts", zap.Error(err))
+		respWriter.MapError(err)
+		return
+	}
+
+	posts, pagination, err := h.PostsService.GetLastWeekPosts(ctx, paginationParams)
 
 	if err != nil {
 		log.Error("get last week posts", zap.Error(err))

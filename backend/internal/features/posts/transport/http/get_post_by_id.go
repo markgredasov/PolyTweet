@@ -2,7 +2,6 @@ package http
 
 import (
 	"net/http"
-	"strings"
 	"time"
 
 	_ "github.com/tryingmyb3st/PolyTweet/internal/core/domain"
@@ -44,9 +43,9 @@ func (h *PostsHTTPHandler) GetPostById(w http.ResponseWriter, r *http.Request) {
 	log := ctx.Value("log").(*logger.Logger)
 	respWriter := response.NewResponseHandler(log, w)
 
-	postIdStr := strings.TrimPrefix(r.URL.Path, "/posts/")
+	postID := r.PathValue("PostId")
 
-	post, err := h.PostsService.GetPostByID(ctx, postIdStr)
+	post, err := h.PostsService.GetPostByID(ctx, postID)
 
 	if err != nil {
 		log.Error("get post by id", zap.Error(err))

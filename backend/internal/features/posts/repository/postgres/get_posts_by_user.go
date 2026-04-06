@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/tryingmyb3st/PolyTweet/internal/core/domain"
+	posts_models "github.com/tryingmyb3st/PolyTweet/internal/features/posts/repository"
 )
 
 func (r *PostsRepository) GetPostsByUser(
@@ -32,18 +33,27 @@ func (r *PostsRepository) GetPostsByUser(
 	}
 
 	for rows.Next() {
-		var post domain.Post
+		var model posts_models.PostModel
 		err = rows.Scan(
-			&post.ID,
-			&post.UserID,
-			&post.Content,
-			&post.ParentID,
-			&post.ReplyTo,
-			&post.ImageURL,
-			&post.CreatedAt,
+			&model.ID,
+			&model.UserID,
+			&model.Content,
+			&model.ParentID,
+			&model.ReplyTo,
+			&model.ImageURL,
+			&model.CreatedAt,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("scan returning posts: %w", err)
+		}
+		post := domain.Post{
+			ID:        model.ID,
+			UserID:    model.UserID,
+			Content:   model.Content,
+			ParentID:  model.ParentID,
+			ReplyTo:   model.ReplyTo,
+			ImageURL:  model.ImageURL,
+			CreatedAt: model.CreatedAt,
 		}
 		posts = append(posts, post)
 	}

@@ -17,7 +17,7 @@ func (r *PostsRepository) GetCountOfLastWeekPosts(ctx context.Context) (int64, e
 
 	row := r.ConnPool.QueryRow(ctxTimeout, query)
 
-	count := int64(0)
+	var count int64
 	err := row.Scan(&count)
 
 	if err != nil {

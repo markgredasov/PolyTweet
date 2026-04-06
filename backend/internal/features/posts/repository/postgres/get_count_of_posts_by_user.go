@@ -20,7 +20,7 @@ func (r *PostsRepository) GetCountOfPostsByUser(
 
 	row := r.ConnPool.QueryRow(ctxTimeout, query, userID)
 
-	count := int64(0)
+	var count int64
 	err := row.Scan(&count)
 
 	if err != nil {

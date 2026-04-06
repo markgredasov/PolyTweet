@@ -30,13 +30,13 @@ type CreatePostDTOResponse struct {
 
 // CreatePost godoc
 // @Summary Создание поста
-// @Description Создает пост длиной <= 280 слов
+// @Description Создает пост длиной <= 280 символов
 // @Tags Posts
 // @Accept json
 // @Produce json
 // @Param request body CreatePostDTO true "тело запроса"
 // @Success 201 {object} CreatePostDTOResponse "Пост создан"
-// @Failure 400 {object} domain.CustomError "Неверный запрос или content > 280"
+// @Failure 400 {object} domain.CustomError "Неверный запрос или content > 280 символов"
 // @Failure 401 {object} domain.CustomError "Неверные учетные данные"
 // @Failure 500 {object} domain.InternalError "Внутренняя ошибка сервера"
 // @Router /posts/create [post]
@@ -54,17 +54,16 @@ func (h *PostsHTTPHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userID := ctx.Value("userId").(string)
-	log.Debug("create post request for user", zap.Any("userId", userID))
+	log.Debug("create post request for user", zap.String("userId", userID))
 
 	post, err := h.PostsService.CreatePost(
 		ctx,
 		domain.Post{
-			UserID:    userID,
-			Content:   req.Content,
-			ParentID:  req.ParentID,
-			ReplyTo:   req.ReplyTo,
-			ImageURL:  req.ImageURL,
-			CreatedAt: time.Now(),
+			UserID:   userID,
+			Content:  req.Content,
+			ParentID: req.ParentID,
+			ReplyTo:  req.ReplyTo,
+			ImageURL: req.ImageURL,
 		},
 	)
 
@@ -73,7 +72,6 @@ func (h *PostsHTTPHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 		respWriter.MapError(err)
 		return
 	}
-
 	resp := CreatePostDTOResponse{
 		ID:        post.ID,
 		UserID:    post.UserID,
