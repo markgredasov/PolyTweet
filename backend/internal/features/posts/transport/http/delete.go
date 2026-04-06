@@ -34,8 +34,8 @@ func (h *PostsHTTPHandler) DeletePost(w http.ResponseWriter, r *http.Request) {
 	respWriter := response.NewResponseHandler(log, w)
 
 	userID := ctx.Value("userId").(string)
-	log.Debug("delete post request for user", zap.Any("userId", userID))
-	
+	log.Debug("delete post request for user", zap.String("userId", userID))
+
 	postID := r.PathValue("PostId")
 
 	err := h.PostsService.DeletePost(ctx, userID, postID)

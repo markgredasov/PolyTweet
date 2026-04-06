@@ -41,6 +41,7 @@ func (h *PostsHTTPHandler) GetPostsByUser(w http.ResponseWriter, r *http.Request
 	respWriter := response.NewResponseHandler(log, w)
 
 	userID := r.PathValue("UserId")
+	log.Debug("getting posts for user", zap.String("userId", userID))
 
 	posts, pagination, err := h.PostsService.GetPostsByUser(ctx, userID, pageStr, pageSizeStr)
 

@@ -54,7 +54,6 @@ func (h *PostsHTTPHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userID := ctx.Value("userId").(string)
-	log.Debug("create post request for user", zap.String("userId", userID))
 
 	post, err := h.PostsService.CreatePost(
 		ctx,

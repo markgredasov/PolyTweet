@@ -44,6 +44,7 @@ func (h *PostsHTTPHandler) GetPostById(w http.ResponseWriter, r *http.Request) {
 	respWriter := response.NewResponseHandler(log, w)
 
 	postID := r.PathValue("PostId")
+	log.Debug("getting post with id", zap.String("userId", postID))
 
 	post, err := h.PostsService.GetPostByID(ctx, postID)
 
