@@ -1,0 +1,43 @@
+.container {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.label {
+    display: block;
+    color: #e7e9ea;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.input {
+    width: 100%;
+    padding: 20px 12px;
+    background-color: #000000;
+    border: 1px solid #2f3336;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 17px;
+    transition: all 0.2s;
+    
+    &:focus {
+        outline: none;
+        border-color: #1d9bf0;
+    }
+    
+    &::placeholder {
+        color: #71767b;
+    }
+    
+    &.error {
+        border-color: #f4212e;
+    }
+}
+
+.errorMessage {
+    display: block;
+    color: #f4212e;
+    font-size: 13px;
+    margin-top: 4px;
+}

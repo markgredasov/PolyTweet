@@ -1,1 +1,0 @@
-export { RegistrationPageAsync as RegistrationPage } from './RegistrationPage.async';
