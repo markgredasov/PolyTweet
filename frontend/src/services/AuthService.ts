@@ -1,19 +1,28 @@
-import {AxiosResponse} from "axios";
-import {LoginResponse} from "@models/response/LoginResponse";
-import $api from "@api/api";
-import {RegisterResponse} from "@models/response/RegisterResponse";
+import $api from '../app/api/api';
+import { 
+    RegisterRequest, 
+    RegisterResponse, 
+    LoginRequest, 
+    LoginResponse 
+} from '../app/api/api';
 
-
-export default class AuthService {
-    static async login(email: string, password: string): Promise<AxiosResponse<LoginResponse>> {
-        return $api.post<LoginResponse>('v1/auth/login', {email, password})
+export class AuthService {
+    static async register(data: RegisterRequest): Promise<RegisterResponse> {
+        const response = await $api.post<RegisterResponse>('/register', data);
+        return response.data;
     }
 
-    static async register(email: string, password: string, group_name: string): Promise<AxiosResponse<RegisterResponse>> {
-        return $api.post<RegisterResponse>('v1/auth/register', {email, password, group_name})
+    static async login(data: LoginRequest): Promise<LoginResponse> {
+        const response = await $api.post<LoginResponse>('/login', data);
+        return response.data;
     }
 
-    static async logout(): Promise<AxiosResponse> {
-        return $api.post('v1/auth/logout')
+    static async dummyLogin(role: 'admin' | 'user'): Promise<LoginResponse> {
+        const response = await $api.post<LoginResponse>('/dummyLogin', { role });
+        return response.data;
+    }
+
+    static logout(): void {
+        localStorage.removeItem('token');
     }
 }

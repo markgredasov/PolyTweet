@@ -1,20 +1,14 @@
-import React, { Suspense } from 'react';
-import {Route, Routes } from "react-router-dom";
-import {routeConfig} from "./routeConfig";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Authentication from '../../pages/AuthenticationPage/Authentication';
 
 const AppRouter = () => {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <BrowserRouter>
             <Routes>
-                {Object.values(routeConfig).map(({element, path}) => (
-                    <Route
-                        key={path}
-                        path={path}
-                        element={element}
-                    />
-                ))}
+                <Route path="/auth" element={<Authentication />} />
+                <Route path="/*" element={<Navigate to="/auth" replace />} />
             </Routes>
-        </Suspense>
+        </BrowserRouter>
     );
 };
 

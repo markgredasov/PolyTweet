@@ -1,0 +1,29 @@
+.form {
+    width: 100%;
+}
+
+.title {
+    font-size: 31px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.dateSection {
+    margin-bottom: 24px;
+}
+
+.sectionLabel {
+    display: block;
+    color: #e7e9ea;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.dateGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}

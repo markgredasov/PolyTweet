@@ -1,14 +1,76 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
-export const API_URL = `https://localhost:8080`
+export const API_URL = 'http://localhost:8080';
 
 const $api = axios.create({
     baseURL: API_URL,
+    timeout: 10000,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    withCredentials: false,
 });
 
-$api.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    return config;
-});
+$api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        console.log(`${config.method?.toUpperCase()} ${config.url}`);
+        return config;
+    },
+    (error) => {
+        console.error('Request error:', error);
+        return Promise.reject(error);
+    }
+);
+
+$api.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {        
+        if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+            toast.error('Cannot connect to backend server!\n\nPlease start the server on port 8080', {
+                position: "top-right",
+                autoClose: 8000,
+            });
+        }
+        
+        if (error.response?.status === 401) {
+            localStorage.removeItem('token');
+            toast.error('Session expired. Please login again.');
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 1500);
+        }
+        
+        return Promise.reject(error);
+    }
+);
 
 export default $api;
+
+export interface RegisterRequest {
+    email: string;
+    password: string;
+    role: string;
+}
+
+export interface RegisterResponse {
+    id: string;
+    email: string;
+    role: string;
+    createdAt: string;
+}
+
+export interface LoginRequest {
+    email: string;
+    password: string;
+}
+
+export interface LoginResponse {
+    token: string;
+}

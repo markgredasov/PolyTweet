@@ -1,0 +1,37 @@
+.button {
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    &.contained {
+        background-color: #1d9bf0;
+        color: #ffffff;
+        
+        &:hover:not(:disabled) {
+            background-color: #1a8cd8;
+        }
+    }
+    
+    &.outlined {
+        background-color: transparent;
+        border: 1px solid #2f3336;
+        color: #1d9bf0;
+        
+        &:hover:not(:disabled) {
+            background-color: rgba(29, 155, 240, 0.1);
+        }
+    }
+    
+    &.fullWidth {
+        width: 100%;
+    }
+}

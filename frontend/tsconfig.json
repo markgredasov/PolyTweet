@@ -8,6 +8,7 @@
       "@models/*" : ["./src/models/*"],
       "@services/*" : ["./src/services/*"],
       "@api/*" : ["./src/app/api/*"],
+      "@pages/*": ["./src/pages/*"],
     },
     "noImplicitAny": true,
     "module": "ESNext",

@@ -1,0 +1,50 @@
+.container {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.label {
+    display: block;
+    color: #e7e9ea;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.select {
+    width: 100%;
+    padding: 20px 12px;
+    background-color: #000000;
+    border: 1px solid #2f3336;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-sizing: border-box;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 24px;
+    
+    &:focus {
+        outline: none;
+        border-color: #1d9bf0;
+    }
+    
+    &.error {
+        border-color: #f4212e;
+    }
+}
+
+.errorMessage {
+    display: block;
+    color: #f4212e;
+    font-size: 13px;
+    margin-top: 4px;
+}
