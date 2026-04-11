@@ -1,13 +1,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { routeConfig, RoutePath, AppRoutes } from './routeConfig';
 import { useAuthStore } from '../../stores/useAuthStore';
-import {Suspense} from "react";
+import { Suspense } from 'react';
 
 const AppRouter = () => {
     const isAuth = useAuthStore((state) => state.isAuth);
 
     return (
-        <Suspense>  // todo: splash screen/loader
+        <Suspense fallback={<div>Loading</div>}>
+            {/*todo: splash screen/loader*/}
             <BrowserRouter>
                 <Routes>
                     {Object.values(routeConfig).map((route) => (
