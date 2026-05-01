@@ -878,6 +878,9 @@ const docTemplate = `{
                 "user_id"
             ],
             "properties": {
+                "avatar_url": {
+                    "type": "string"
+                },
                 "content": {
                     "type": "string",
                     "maxLength": 280,
@@ -903,6 +906,11 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "string"
+                },
+                "username": {
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 4
                 }
             }
         },
@@ -941,6 +949,12 @@ const docTemplate = `{
             "properties": {
                 "token": {
                     "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         },
@@ -952,20 +966,30 @@ const docTemplate = `{
                     "x-order": "0",
                     "example": "24b6b463-266f-4916-b199-f833e6e334ce"
                 },
-                "content": {
+                "username": {
                     "type": "string",
                     "x-order": "1",
+                    "example": "m4rkek"
+                },
+                "content": {
+                    "type": "string",
+                    "x-order": "2",
                     "example": "..."
                 },
                 "user_id": {
                     "type": "string",
-                    "x-order": "2",
+                    "x-order": "3",
                     "example": "bba83b30-a3ba-4fa8-a6de-79c27b3f5946"
                 },
                 "created_at": {
                     "type": "string",
-                    "x-order": "3",
+                    "x-order": "4",
                     "example": "timestamp"
+                },
+                "avatar_url": {
+                    "type": "string",
+                    "x-order": "5",
+                    "example": "http://localhost:8333/6,0307364665"
                 }
             }
         },
@@ -1019,14 +1043,19 @@ const docTemplate = `{
                     "x-order": "0",
                     "example": "useremail@gmail.com"
                 },
-                "password": {
+                "username": {
                     "type": "string",
                     "x-order": "1",
+                    "example": "m4rkek"
+                },
+                "password": {
+                    "type": "string",
+                    "x-order": "2",
                     "example": "supersecretpass"
                 },
                 "role": {
                     "type": "string",
-                    "x-order": "2",
+                    "x-order": "3",
                     "example": "admin"
                 }
             }
@@ -1039,23 +1068,28 @@ const docTemplate = `{
                     "x-order": "0",
                     "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                 },
-                "email": {
+                "username": {
                     "type": "string",
                     "x-order": "1",
+                    "example": "m4rkek"
+                },
+                "email": {
+                    "type": "string",
+                    "x-order": "2",
                     "example": "useremail@gmail.com"
                 },
                 "password": {
                     "type": "string",
-                    "x-order": "2"
+                    "x-order": "3"
                 },
                 "role": {
                     "type": "string",
-                    "x-order": "3",
+                    "x-order": "4",
                     "example": "admin"
                 },
                 "createdAt": {
                     "type": "string",
-                    "x-order": "4",
+                    "x-order": "5",
                     "example": "2026-03-25T12:00:41.267Z"
                 }
             }
@@ -1225,34 +1259,44 @@ const docTemplate = `{
                     "x-order": "1",
                     "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                 },
-                "content": {
+                "username": {
                     "type": "string",
                     "x-order": "2",
+                    "example": "m4rkek"
+                },
+                "content": {
+                    "type": "string",
+                    "x-order": "3",
                     "example": "Hello, world!"
                 },
                 "likes_count": {
                     "type": "integer",
-                    "x-order": "3",
+                    "x-order": "4",
                     "example": 0
                 },
                 "parent_id": {
                     "type": "string",
-                    "x-order": "4",
+                    "x-order": "5",
                     "example": "123e4567-e89b-12d3-a456-426614174000"
                 },
                 "reply_to": {
                     "type": "string",
-                    "x-order": "5",
+                    "x-order": "6",
                     "example": "123e4567-e89b-12d3-a456-426614174000"
                 },
                 "image_url": {
                     "type": "string",
-                    "x-order": "6",
+                    "x-order": "7",
+                    "example": "https://example.com/image.jpg"
+                },
+                "avatar_url": {
+                    "type": "string",
+                    "x-order": "8",
                     "example": "https://example.com/image.jpg"
                 },
                 "created_at": {
                     "type": "string",
-                    "x-order": "7",
+                    "x-order": "9",
                     "example": "2026-03-25T12:00:41.267Z"
                 }
             }
