@@ -18,7 +18,7 @@ func (r *PostsRepository) GetPostByID(ctx context.Context, postID string) (*doma
 	        u.username, COALESCE(u.avatar_url, '')
 	FROM posts p
 	LEFT JOIN users u ON p.user_id = u.id
-	WHERE u.id = $1;
+	WHERE p.id = $1;
 	`
 
 	row := r.ConnPool.QueryRow(ctxTimeout, query, postID)
