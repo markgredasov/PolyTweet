@@ -127,19 +127,19 @@ definitions:
       avatar_url:
         example: http://localhost:8333/6,0307364665
         type: string
-        x-order: "3"
+        x-order: "4"
       bio:
         example: lol
         type: string
-        x-order: "4"
+        x-order: "5"
       created_at:
         example: timestamp
         type: string
-        x-order: "5"
+        x-order: "6"
       email:
         example: lol@gmail.com
         type: string
-        x-order: "1"
+        x-order: "2"
       id:
         example: http://localhost:8333/6,0307364665
         type: string
@@ -148,11 +148,15 @@ definitions:
         items:
           $ref: '#/definitions/internal_features_auth_transport_http.PostResponse'
         type: array
-        x-order: "6"
+        x-order: "7"
       role:
         example: admin
         type: string
-        x-order: "2"
+        x-order: "3"
+      username:
+        example: m4rkek
+        type: string
+        x-order: "1"
     type: object
   internal_features_auth_transport_http.RegisterDTO:
     properties:
@@ -349,6 +353,12 @@ definitions:
         example: m4rkek
         type: string
         x-order: "2"
+    type: object
+  internal_features_posts_transport_http.UploadImageDTOResponse:
+    properties:
+      image_url:
+        example: https://example.com/image.jpg
+        type: string
     type: object
 host: 127.0.0.1:8080
 info:
@@ -712,6 +722,40 @@ paths:
       summary: Создание поста
       tags:
       - Posts
+  /posts/image:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Загрузить изображение в SeaweedFS и возвращает URL
+      parameters:
+      - description: Файл изображения
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Bearer <jwt токен>
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_features_posts_transport_http.UploadImageDTOResponse'
+        "400":
+          description: Неверный запрос
+          schema:
+            $ref: '#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError'
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            $ref: '#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.InternalError'
+      summary: Загрузить изображение для поста
+      tags:
+      - Posts
   /profile/avatar:
     post:
       consumes:
@@ -743,7 +787,7 @@ paths:
           description: Внутренняя ошибка сервера
           schema:
             $ref: '#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.InternalError'
-      summary: Загрузить аватарку пользотвалея
+      summary: Загрузить аватарку пользователя
       tags:
       - Profile
   /profile/update:

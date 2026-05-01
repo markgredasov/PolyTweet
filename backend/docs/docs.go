@@ -233,6 +233,57 @@ const docTemplate = `{
                 }
             }
         },
+        "/posts/image": {
+            "post": {
+                "description": "Загрузить изображение в SeaweedFS и возвращает URL",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Загрузить изображение для поста",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Файл изображения",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Bearer \u003cjwt токен\u003e",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_features_posts_transport_http.UploadImageDTOResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный запрос",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.CustomError"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_tryingmyb3st_PolyTweet_internal_core_domain.InternalError"
+                        }
+                    }
+                }
+            }
+        },
         "/posts/{PostId}": {
             "get": {
                 "description": "Ищет пост по ID",
@@ -551,7 +602,7 @@ const docTemplate = `{
                 "tags": [
                     "Profile"
                 ],
-                "summary": "Загрузить аватарку пользотвалея",
+                "summary": "Загрузить аватарку пользователя",
                 "parameters": [
                     {
                         "type": "file",
@@ -1001,29 +1052,34 @@ const docTemplate = `{
                     "x-order": "0",
                     "example": "http://localhost:8333/6,0307364665"
                 },
-                "email": {
+                "username": {
                     "type": "string",
                     "x-order": "1",
+                    "example": "m4rkek"
+                },
+                "email": {
+                    "type": "string",
+                    "x-order": "2",
                     "example": "lol@gmail.com"
                 },
                 "role": {
                     "type": "string",
-                    "x-order": "2",
+                    "x-order": "3",
                     "example": "admin"
                 },
                 "avatar_url": {
                     "type": "string",
-                    "x-order": "3",
+                    "x-order": "4",
                     "example": "http://localhost:8333/6,0307364665"
                 },
                 "bio": {
                     "type": "string",
-                    "x-order": "4",
+                    "x-order": "5",
                     "example": "lol"
                 },
                 "created_at": {
                     "type": "string",
-                    "x-order": "5",
+                    "x-order": "6",
                     "example": "timestamp"
                 },
                 "posts": {
@@ -1031,7 +1087,7 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/internal_features_auth_transport_http.PostResponse"
                     },
-                    "x-order": "6"
+                    "x-order": "7"
                 }
             }
         },
@@ -1097,15 +1153,15 @@ const docTemplate = `{
         "internal_features_auth_transport_http.UpdateProfileRequest": {
             "type": "object",
             "properties": {
-                "avatar_url": {
-                    "type": "string",
-                    "x-order": "0",
-                    "example": "http://localhost:8333/6,0307364665"
-                },
                 "bio": {
                     "type": "string",
                     "x-order": "0",
                     "example": "lol"
+                },
+                "avatar_url": {
+                    "type": "string",
+                    "x-order": "0",
+                    "example": "http://localhost:8333/6,0307364665"
                 }
             }
         },
@@ -1298,6 +1354,15 @@ const docTemplate = `{
                     "type": "string",
                     "x-order": "9",
                     "example": "2026-03-25T12:00:41.267Z"
+                }
+            }
+        },
+        "internal_features_posts_transport_http.UploadImageDTOResponse": {
+            "type": "object",
+            "properties": {
+                "image_url": {
+                    "type": "string",
+                    "example": "https://example.com/image.jpg"
                 }
             }
         }
